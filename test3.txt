@@ -1,0 +1,50 @@
+<?php namespace Track;
+
+ini_set("memory_limit", -1);
+
+function main($lines) {
+  foreach ($lines as $index=>$value) {
+    if($value == ""){
+        continue;
+    }
+    if(!is_numeric($value)){
+        printf("error:this program has only support for numeric input\n");
+        continue;
+    }
+    
+    $array = str_split($value);
+    
+    sort($array);
+      
+    if($array[0] == 0){
+        foreach ($array as $key=>$var){
+            if($var != 0){
+                $array[0] = $var;
+                $array[$key] = 0;
+                break;
+            }
+        }
+    }
+    
+    printf("%s\n", implode("",$array));
+  }
+
+}
+
+$array = array();
+
+while (true) {
+
+  $stdin = fgets(STDIN);
+
+  if ($stdin == "") {
+
+    break;
+
+  }
+
+  $array[] = rtrim($stdin);
+
+}
+
+main($array);

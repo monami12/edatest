@@ -1,0 +1,82 @@
+<?php namespace Track;
+
+ini_set("memory_limit", -1);
+
+function reverse($str,$search,$direction){
+    
+    if($direction == "L"){
+        $pos = strpos($str,$search);
+        if($pos === false or $pos === 0){
+            return $search . $str;
+        }
+        return $search . str_repeat($search,$pos) . substr($str,$pos);
+    }else{//R
+        $pos = strrpos($str,$search);
+        if($pos === false or $pos === strlen($str) - 1){
+            return $str .$search;
+        }
+        return substr($str,0,$pos+1) . str_repeat($search,strlen($str) - 1 - $pos) . $search;
+    }
+}
+
+function process($str){
+    $bord = "bw";
+    $bord_arr = str_split($str);
+    
+    $cnt = 1;
+    
+    
+    foreach ($bord_arr as $ch){
+
+        $black_or_white = "b";
+        if($cnt % 2 == 0){
+            $black_or_white = "w";
+        }
+        
+        if($ch != 'L' and $ch != 'R'){
+            throw new \Exception("error:unknown charactor contain\n");
+        }
+        
+        $bord = reverse($bord,$black_or_white,$ch);
+        
+        $cnt++;
+    }
+    
+    return $bord;
+}
+
+function main($lines) {
+  foreach ($lines as $index=>$value) {
+    if($value == ""){
+        continue;
+    }
+      
+    try{
+        $result = process($value);
+    }catch(\Exception $e){
+        printf($e->getMessage());
+        continue;
+    }
+    
+    printf("%s %s\n", substr_count($result,"b"), substr_count($result,"w"));
+  }
+
+}
+
+$array = array();
+
+while (true) {
+
+  $stdin = fgets(STDIN);
+
+  if ($stdin == "") {
+
+    break;
+
+  }
+
+  $array[] = rtrim($stdin);
+
+}
+
+main($array);

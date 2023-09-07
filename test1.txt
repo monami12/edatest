@@ -1,0 +1,39 @@
+<?php namespace Track;
+
+ini_set("memory_limit", -1);
+
+function main($lines) {
+
+  foreach ($lines as $index=>$value) {
+    if($value == ""){
+        continue;
+    }
+    if($value <= 0) {
+        printf("line[%s]:error\n",$index);
+        continue;
+    }
+      
+    $n = ceil(($value - 1) / 6);
+
+    printf("%s\n", $n);
+  }
+
+}
+
+$array = array();
+
+while (true) {
+
+  $stdin = fgets(STDIN);
+
+  if ($stdin == "") {
+
+    break;
+
+  }
+
+  $array[] = rtrim($stdin);
+
+}
+
+main($array);
